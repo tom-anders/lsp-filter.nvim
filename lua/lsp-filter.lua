@@ -7,11 +7,9 @@ M.filter_request = function(method, opts)
 
     handler = opts.handler or vim.lsp.handlers[method]
     if not handler then
-        print("No default handler for method", method)
+        vim.notify("No default handler for method " .. method, "error")
         return
     end
-
-    local filter = opts.filter
 
     vim.lsp.buf_request(0, method, params, function(err, results, ctx)
         if not opts.filter or err or not results or #results <= 1 then
@@ -60,9 +58,7 @@ M.references = function(...) M.filter_request("textDocument/references", ...) en
 M.definition = function(...) M.filter_request("textDocument/definition", ...) end
 M.implementation = function(...) M.filter_request("textDocument/implementation", ...) end
 
---TODO Actually make this work
-M.setup = function(config) 
-    M.filetypes = config.filetypes or nil 
+M.setup = function(opts) 
 end
 
 return M
