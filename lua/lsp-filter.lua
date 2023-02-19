@@ -4,6 +4,9 @@ local last_results = {}
 
 M.filter_request = function(method, opts)
     local params = vim.lsp.util.make_position_params()
+    params.context = opts.context or {
+        includeDeclaration = true,
+    }
 
     handler = opts.handler or vim.lsp.handlers[method]
     if not handler then
